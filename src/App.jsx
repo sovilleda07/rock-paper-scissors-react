@@ -1,34 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+
+const MOVES = ['rock', 'paper', 'scissors'];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [score, setScore] = useState(() => {
+    return {
+      wins: 0,
+      losses: 0,
+      ties: 0
+    };
+  });
+
+  function pickComputerMove() {
+    return MOVES[Math.floor(Math.random() * 3)];
+  }
+
+  function playGame(playerMove) {
+    console.log(playerMove);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='game-container'>
+      <h1>Rock Paper Scissors</h1>
+
+      <div className='moves-container'>
+        {MOVES.map(move => (
+          <button key={move} onClick={() => playGame(move)}>
+            <img src={`/${move}-emoji.png`} alt={move} />
+          </button>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+
+      <p>
+        Wins: {score.wins}, Losses: {score.losses}, Ties: {score.ties}
       </p>
-    </>
+    </div>
   )
 }
 
