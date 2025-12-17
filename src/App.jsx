@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MoveButton } from './components/MoveButton';
+import { Moves } from './components/Moves';
 import './App.css';
 
 const MOVES = ['rock', 'paper', 'scissors'];
@@ -96,12 +97,10 @@ function App() {
       </p>
 
       {moves && (
-        <p className='moves'>
-          You
-          <img src={`/${moves.playerMove}-emoji.png`} alt={moves.playerMove} className='move-icon' />
-          <img src={`/${moves.computerMove}-emoji.png`} alt={moves.computerMove} className='move-icon' />
-          Computer
-        </p>
+        <Moves
+          playerMove={moves.playerMove}
+          computerMove={moves.computerMove}
+        />
       )}
 
       <p className='score'>
