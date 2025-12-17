@@ -41,6 +41,12 @@ function App() {
     }));
   }
 
+  function resetScore() {
+    setScore({ wins: 0, losses: 0, ties: 0 });
+    setResult('');
+    setMoves(null);
+  }
+
   return (
     <div className='game-container'>
       <h1>Rock Paper Scissors</h1>
@@ -69,6 +75,8 @@ function App() {
       <p>
         Wins: {score.wins}, Losses: {score.losses}, Ties: {score.ties}
       </p>
+
+      <button onClick={resetScore}>Reset Score</button>
     </div>
   )
 }
