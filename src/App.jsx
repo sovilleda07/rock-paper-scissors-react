@@ -91,7 +91,7 @@ function App() {
       <Controls
         isAutoPlaying={isAutoPlaying}
         onReset={() => setIsResetingScore(true)}
-        onToggleAutoPlay={() => setIsAutoPlaying(true)}
+        onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
       />
 
       <p className='instructions'>
