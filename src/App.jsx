@@ -4,9 +4,8 @@ import { Moves } from './components/Moves';
 import { Result } from './components/Result';
 import { Score } from './components/Score';
 import { Controls } from './components/Controls';
+import { MOVES, getGameResult, pickComputerMove } from './utils/gameLogic';
 import './App.css';
-
-const MOVES = ['rock', 'paper', 'scissors'];
 
 function App() {
   const [score, setScore] = useState(() => {
@@ -42,28 +41,16 @@ function App() {
       if (e.key === 'p') playGame('paper');
       if (e.key === 's') playGame('scissors');
       if (e.key === 'a') setIsAutoPlaying(p => !p);
-      if (e.key === 'Backspace') resetScore();
+      if (e.key === 'Backspace') setIsRessetingScore(r => !r);
     }
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  function pickComputerMove() {
-    return MOVES[Math.floor(Math.random() * 3)];
-  }
-
   function playGame(playerMove) {
     const computerMove = pickComputerMove();
-    let gameResult = '';
-
-    if (playerMove === computerMove) gameResult = 'Tie.';
-    else if (
-      (playerMove === 'rock' && computerMove === 'scissors') ||
-      (playerMove === 'paper' && computerMove === 'rock') ||
-      (playerMove === 'scissors' && computerMove === 'paper')
-    ) gameResult = 'You win.';
-    else gameResult = 'You lose.';
+    const gameResult = getGameResult(playerMove, computerMove);
 
     setResult(gameResult);
 
