@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
+import { Result } from './components/Result';
 import './App.css';
 
 const MOVES = ['rock', 'paper', 'scissors'];
@@ -92,9 +93,7 @@ function App() {
         ))}
       </div>
 
-      <p className={`result ${result.includes('win') ? 'win' : result.includes('lose') ? 'lose' : 'tie'}`}>
-        {result}
-      </p>
+      <Result result={result} />
 
       {moves && (
         <Moves
