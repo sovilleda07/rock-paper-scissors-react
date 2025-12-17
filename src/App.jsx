@@ -3,6 +3,7 @@ import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
 import { Result } from './components/Result';
 import { Score } from './components/Score';
+import { Controls } from './components/Controls';
 import './App.css';
 
 const MOVES = ['rock', 'paper', 'scissors'];
@@ -105,12 +106,11 @@ function App() {
 
       <Score score={score} />
 
-      <div className='buttons-container'>
-        <button className='reset-score-button' onClick={() => setIsRessetingScore(r => !r)}>Reset Score</button>
-        <button className='auto-play-button' onClick={() => setIsAutoPlaying(p => !p)}>
-          {isAutoPlaying ? 'Stop Playing' : 'Auto Play'}
-        </button>
-      </div>
+      <Controls
+        isAutoPlaying={isAutoPlaying}
+        onReset={() => setIsRessetingScore(r => !r)}
+        onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
+      />
 
       <p className='instructions'>
         Controls:<br />
