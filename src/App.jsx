@@ -25,6 +25,19 @@ function App() {
     return () => clearInterval(id);
   }, [isAutoPlaying]);
 
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'r') playGame('rock');
+      if (e.key === 'p') playGame('paper');
+      if (e.key === 's') playGame('scissors');
+      if (e.key === 'a') setIsAutoPlaying(p => !p);
+      if (e.key === 'Backspace') resetScore();
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   function pickComputerMove() {
     return MOVES[Math.floor(Math.random() * 3)];
   }
