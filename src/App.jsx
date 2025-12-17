@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useKeyboardControls } from './hooks/useKeyboardControls';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
 import { Result } from './components/Result';
@@ -18,7 +19,7 @@ function App() {
 
   const [result, setResult] = useState('');
   const [moves, setMoves] = useState(null);
-  const [isResettingScore, setIsRessetingScore] = useState(false);
+  const [isResettingScore, setIsResetingScore] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
   useEffect(() => {
@@ -35,18 +36,11 @@ function App() {
     return () => clearInterval(id);
   }, [isAutoPlaying]);
 
-  useEffect(() => {
-    function handleKeyDown(e) {
-      if (e.key === 'r') playGame('rock');
-      if (e.key === 'p') playGame('paper');
-      if (e.key === 's') playGame('scissors');
-      if (e.key === 'a') setIsAutoPlaying(p => !p);
-      if (e.key === 'Backspace') setIsRessetingScore(r => !r);
-    }
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  useKeyboardControls({
+    onPlay: playGame,
+    onToggleAutoPlay: () => setIsAutoPlaying(p => !p),
+    onReset: () => setIsResetingScore(r => !r)
+  })
 
   function playGame(playerMove) {
     const computerMove = pickComputerMove();
@@ -67,7 +61,7 @@ function App() {
     setScore({ wins: 0, losses: 0, ties: 0 });
     setResult('');
     setMoves(null);
-    setIsRessetingScore(false);
+    setIsResetingScore(false);
 
     localStorage.removeItem('score');
   }
@@ -95,7 +89,7 @@ function App() {
 
       <Controls
         isAutoPlaying={isAutoPlaying}
-        onReset={() => setIsRessetingScore(r => !r)}
+        onReset={() => setIsResetingScore(r => !r)}
         onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
       />
 
@@ -115,7 +109,7 @@ function App() {
           </p>
           <div className="buttons-container">
             <button className="reset-confirm-button" onClick={resetScore}>Yes</button>
-            <button className="reset-confirm-button" onClick={() => setIsRessetingScore(r => !r)}>No</button>
+            <button className="reset-confirm-button" onClick={() => setIsResetingScore(r => !r)}>No</button>
           </div>
         </>
       )}
