@@ -4,7 +4,7 @@ const MOVES = ['rock', 'paper', 'scissors'];
 
 function App() {
   const [score, setScore] = useState(() => {
-    return {
+    return JSON.parse(localStorage.getItem('score')) || {
       wins: 0,
       losses: 0,
       ties: 0
@@ -14,6 +14,10 @@ function App() {
   const [result, setResult] = useState('');
   const [moves, setMoves] = useState(null);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('score', JSON.stringify(score));
+  }, [score]);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
@@ -69,6 +73,8 @@ function App() {
     setScore({ wins: 0, losses: 0, ties: 0 });
     setResult('');
     setMoves(null);
+
+    localStorage.removeItem('score');
   }
 
   return (
