@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { MoveButton } from './components/MoveButton';
 import './App.css';
 
 const MOVES = ['rock', 'paper', 'scissors'];
@@ -86,9 +87,7 @@ function App() {
 
       <div className='moves-container'>
         {MOVES.map(move => (
-          <button key={move} className='move-button' onClick={() => playGame(move)}>
-            <img src={`/${move}-emoji.png`} alt={move} className='move-icon' />
-          </button>
+          <MoveButton key={move} move={move} onPlay={playGame} />
         ))}
       </div>
 
