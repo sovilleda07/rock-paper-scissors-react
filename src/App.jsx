@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useKeyboardControls } from './hooks/useKeyboardControls';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
@@ -26,28 +26,11 @@ function App() {
     localStorage.setItem('score', JSON.stringify(score));
   }, [score]);
 
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-
-    const id = setInterval(() => {
-      playGame(pickComputerMove())
-    }, 1000);
-
-    return () => clearInterval(id);
-  }, [isAutoPlaying]);
-
-  useKeyboardControls({
-    onPlay: playGame,
-    onToggleAutoPlay: () => setIsAutoPlaying(p => !p),
-    onReset: () => setIsResetingScore(r => !r)
-  })
-
-  function playGame(playerMove) {
+  const playGame = useCallback((playerMove) => {
     const computerMove = pickComputerMove();
     const gameResult = getGameResult(playerMove, computerMove);
 
     setResult(gameResult);
-
     setMoves({ playerMove, computerMove });
 
     setScore(prev => ({
@@ -55,9 +38,27 @@ function App() {
       losses: prev.losses + (gameResult === 'You lose.' ? 1 : 0),
       ties: prev.ties + (gameResult === 'Tie.' ? 1 : 0)
     }));
-  }
+  }, []);
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const id = setInterval(() => {
+      playGame(pickComputerMove());
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [isAutoPlaying, playGame]);
+
+
+  useKeyboardControls({
+    onPlay: playGame,
+    onToggleAutoPlay: () => setIsAutoPlaying(true),
+    onReset: () => setIsResetingScore(true)
+  })
 
   function resetScore() {
+    setIsAutoPlaying(false);
     setScore({ wins: 0, losses: 0, ties: 0 });
     setResult('');
     setMoves(null);
@@ -89,8 +90,8 @@ function App() {
 
       <Controls
         isAutoPlaying={isAutoPlaying}
-        onReset={() => setIsResetingScore(r => !r)}
-        onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
+        onReset={() => setIsResetingScore(true)}
+        onToggleAutoPlay={() => setIsAutoPlaying(true)}
       />
 
       <p className='instructions'>
@@ -98,8 +99,8 @@ function App() {
         - Press <strong>P</strong> to play Paper <br />
         - Press <strong>R</strong> to play Rock <br />
         - Press <strong>S</strong> to play Scissors <br />
-        - Press <strong>A</strong> for Auto Play <br />
-        - Press <strong>Backspace</strong> to reset score <br />
+        - Press <strong>A</strong> for Auto play <br />
+        - Press <strong>Backspace</strong> to Reset score <br />
       </p>
 
       {isResettingScore && (
@@ -109,7 +110,7 @@ function App() {
           </p>
           <div className="buttons-container">
             <button className="reset-confirm-button" onClick={resetScore}>Yes</button>
-            <button className="reset-confirm-button" onClick={() => setIsResetingScore(r => !r)}>No</button>
+            <button className="reset-confirm-button" onClick={() => setIsResetingScore(false)}>No</button>
           </div>
         </>
       )}
