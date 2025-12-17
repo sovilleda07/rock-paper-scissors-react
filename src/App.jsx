@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
 import { Result } from './components/Result';
+import { Score } from './components/Score';
 import './App.css';
 
 const MOVES = ['rock', 'paper', 'scissors'];
@@ -102,9 +103,7 @@ function App() {
         />
       )}
 
-      <p className='score'>
-        Wins: {score.wins}, Losses: {score.losses}, Ties: {score.ties}
-      </p>
+      <Score score={score} />
 
       <div className='buttons-container'>
         <button className='reset-score-button' onClick={() => setIsRessetingScore(r => !r)}>Reset Score</button>
