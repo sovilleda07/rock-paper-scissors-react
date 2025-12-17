@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import './App.css';
 
 const MOVES = ['rock', 'paper', 'scissors'];
 
@@ -13,6 +14,7 @@ function App() {
 
   const [result, setResult] = useState('');
   const [moves, setMoves] = useState(null);
+  const [isResettingScore, setIsRessetingScore] = useState(false);
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
 
   useEffect(() => {
@@ -73,6 +75,7 @@ function App() {
     setScore({ wins: 0, losses: 0, ties: 0 });
     setResult('');
     setMoves(null);
+    setIsRessetingScore(false);
 
     localStorage.removeItem('score');
   }
@@ -83,33 +86,56 @@ function App() {
 
       <div className='moves-container'>
         {MOVES.map(move => (
-          <button key={move} onClick={() => playGame(move)}>
-            <img src={`/${move}-emoji.png`} alt={move} />
+          <button key={move} className='move-button' onClick={() => playGame(move)}>
+            <img src={`/${move}-emoji.png`} alt={move} className='move-icon' />
           </button>
         ))}
       </div>
 
-      <p className={`${result.includes('win') ? 'win' : result.includes('lose') ? 'lose' : 'tie'}`}>
+      <p className={`result ${result.includes('win') ? 'win' : result.includes('lose') ? 'lose' : 'tie'}`}>
         {result}
       </p>
 
       {moves && (
-        <p>
+        <p className='moves'>
           You
-          <img src={`/${moves.playerMove}-emoji.png`} alt={moves.playerMove} />
-          <img src={`/${moves.computerMove}-emoji.png`} alt={moves.computerMove} />
+          <img src={`/${moves.playerMove}-emoji.png`} alt={moves.playerMove} className='move-icon' />
+          <img src={`/${moves.computerMove}-emoji.png`} alt={moves.computerMove} className='move-icon' />
           Computer
         </p>
       )}
 
-      <p>
+      <p className='score'>
         Wins: {score.wins}, Losses: {score.losses}, Ties: {score.ties}
       </p>
 
-      <button onClick={resetScore}>Reset Score</button>
-      <button onClick={() => setIsAutoPlaying(p => !p)}>
-        {isAutoPlaying ? 'Stop Playing' : 'Auto Play'}
-      </button>
+      <div className='buttons-container'>
+        <button className='reset-score-button' onClick={() => setIsRessetingScore(r => !r)}>Reset Score</button>
+        <button className='auto-play-button' onClick={() => setIsAutoPlaying(p => !p)}>
+          {isAutoPlaying ? 'Stop Playing' : 'Auto Play'}
+        </button>
+      </div>
+
+      <p className='instructions'>
+        Controls:<br />
+        - Press <strong>P</strong> to play Paper <br />
+        - Press <strong>R</strong> to play Rock <br />
+        - Press <strong>S</strong> to play Scissors <br />
+        - Press <strong>A</strong> for Auto Play <br />
+        - Press <strong>Backspace</strong> to reset score <br />
+      </p>
+
+      {isResettingScore && (
+        <>
+          <p className='confirm-reset-score'>
+            Are you sure you want to reset the score?
+          </p>
+          <div className="buttons-container">
+            <button className="reset-confirm-button" onClick={resetScore}>Yes</button>
+            <button className="reset-confirm-button" onClick={() => setIsRessetingScore(r => !r)}>No</button>
+          </div>
+        </>
+      )}
     </div>
   )
 }
