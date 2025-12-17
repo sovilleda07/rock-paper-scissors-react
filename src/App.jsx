@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MOVES = ['rock', 'paper', 'scissors'];
 
@@ -13,6 +13,17 @@ function App() {
 
   const [result, setResult] = useState('');
   const [moves, setMoves] = useState(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const id = setInterval(() => {
+      playGame(pickComputerMove())
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [isAutoPlaying]);
 
   function pickComputerMove() {
     return MOVES[Math.floor(Math.random() * 3)];
@@ -77,6 +88,9 @@ function App() {
       </p>
 
       <button onClick={resetScore}>Reset Score</button>
+      <button onClick={() => setIsAutoPlaying(p => !p)}>
+        {isAutoPlaying ? 'Stop Playing' : 'Auto Play'}
+      </button>
     </div>
   )
 }
