@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useKeyboardControls } from './hooks/useKeyboardControls';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
+import { ResetConfirmModal } from './components/ResetConfirmModal';
 import { Result } from './components/Result';
 import { Score } from './components/Score';
 import { Controls } from './components/Controls';
@@ -68,51 +69,48 @@ function App() {
   }
 
   return (
-    <div className='game-container'>
-      <h1>Rock Paper Scissors</h1>
+    <div className='app-layout'>
+      <div className='game-container'>
+        <h1>Rock Paper Scissors</h1>
 
-      <div className='moves-container'>
-        {MOVES.map(move => (
-          <MoveButton key={move} move={move} onPlay={playGame} />
-        ))}
-      </div>
+        <div className='moves-container'>
+          {MOVES.map(move => (
+            <MoveButton key={move} move={move} onPlay={playGame} />
+          ))}
+        </div>
 
-      <Result result={result} />
+        <Result result={result} />
 
-      {moves && (
-        <Moves
-          playerMove={moves.playerMove}
-          computerMove={moves.computerMove}
+        {moves && (
+          <Moves
+            playerMove={moves.playerMove}
+            computerMove={moves.computerMove}
+          />
+        )}
+
+        <Score score={score} />
+
+        <Controls
+          isAutoPlaying={isAutoPlaying}
+          onReset={() => setIsResetingScore(true)}
+          onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
         />
-      )}
 
-      <Score score={score} />
+        <p className='instructions'>
+          Controls:<br />
+          - Press <strong>P</strong> to play Paper <br />
+          - Press <strong>R</strong> to play Rock <br />
+          - Press <strong>S</strong> to play Scissors <br />
+          - Press <strong>A</strong> for Auto play <br />
+          - Press <strong>Backspace</strong> to Reset score <br />
+        </p>
 
-      <Controls
-        isAutoPlaying={isAutoPlaying}
-        onReset={() => setIsResetingScore(true)}
-        onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
-      />
-
-      <p className='instructions'>
-        Controls:<br />
-        - Press <strong>P</strong> to play Paper <br />
-        - Press <strong>R</strong> to play Rock <br />
-        - Press <strong>S</strong> to play Scissors <br />
-        - Press <strong>A</strong> for Auto play <br />
-        - Press <strong>Backspace</strong> to Reset score <br />
-      </p>
-
+      </div>
       {isResettingScore && (
-        <>
-          <p className='confirm-reset-score'>
-            Are you sure you want to reset the score?
-          </p>
-          <div className="buttons-container">
-            <button className="reset-confirm-button" onClick={resetScore}>Yes</button>
-            <button className="reset-confirm-button" onClick={() => setIsResetingScore(false)}>No</button>
-          </div>
-        </>
+        <ResetConfirmModal
+          onConfirm={resetScore}
+          onCancel={() => setIsResetingScore(false)}
+        />
       )}
     </div>
   )
