@@ -54,7 +54,7 @@ function App() {
 
   useKeyboardControls({
     onPlay: playGame,
-    onToggleAutoPlay: () => setIsAutoPlaying(true),
+    onToggleAutoPlay: () => setIsAutoPlaying(p => !p),
     onReset: () => setIsResetingScore(true)
   })
 
@@ -79,13 +79,14 @@ function App() {
           ))}
         </div>
 
-        <Result result={result} />
-
         {moves && (
-          <Moves
-            playerMove={moves.playerMove}
-            computerMove={moves.computerMove}
-          />
+          <div className='round-result'>
+            <Moves
+              playerMove={moves.playerMove}
+              computerMove={moves.computerMove}
+            />
+            <Result result={result} />
+          </div>
         )}
 
         <Score score={score} />
