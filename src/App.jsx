@@ -6,6 +6,7 @@ import { ResetConfirmModal } from './components/ResetConfirmModal';
 import { Result } from './components/Result';
 import { Score } from './components/Score';
 import { Controls } from './components/Controls';
+import { ControlsInfo } from './components/ControlsInfo';
 import { MOVES, getGameResult, pickComputerMove } from './utils/gameLogic';
 import './App.css';
 
@@ -97,14 +98,7 @@ function App() {
           onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
         />
 
-        <p className='instructions'>
-          Controls:<br />
-          - Press <strong>P</strong> to play Paper <br />
-          - Press <strong>R</strong> to play Rock <br />
-          - Press <strong>S</strong> to play Scissors <br />
-          - Press <strong>A</strong> for Auto play <br />
-          - Press <strong>Backspace</strong> to Reset score <br />
-        </p>
+        <ControlsInfo />
 
       </div>
       {isResettingScore && (
