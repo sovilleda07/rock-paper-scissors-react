@@ -1,12 +1,22 @@
+import { useTranslation } from "react-i18next";
+
 export function Result({ result }) {
+  const { t } = useTranslation();
+
   if (!result) return null;
 
-  const className =
-    result === 'You win.'
-      ? 'result win'
-      : result === 'You lose.'
-        ? 'result lose'
-        : 'result tie';
+  const resultKeys = {
+    'You win.': 'you_win',
+    'You lose.': 'you_lose',
+    'Tie.': 'tie'
+  }
 
-  return <p className={className}>{result}</p>;
+  const statusClass =
+    result === 'You win.'
+      ? 'win'
+      : result === 'You lose.'
+        ? 'lose'
+        : 'tie';
+
+  return <p className={`result ${statusClass}`}>{t(resultKeys[result])}</p>;
 }

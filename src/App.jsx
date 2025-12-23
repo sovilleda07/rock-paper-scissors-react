@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useKeyboardControls } from './hooks/useKeyboardControls';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
@@ -11,6 +12,8 @@ import { MOVES, getGameResult, pickComputerMove } from './utils/gameLogic';
 import './App.css';
 
 function App() {
+  const { t } = useTranslation();
+
   const [score, setScore] = useState(() => {
     return JSON.parse(localStorage.getItem('score')) || {
       wins: 0,
@@ -72,7 +75,7 @@ function App() {
   return (
     <div className='app-layout'>
       <div className='game-container'>
-        <h1>Rock Paper Scissors</h1>
+        <h1>{t('name')}</h1>
 
         <div className='moves-container'>
           {MOVES.map(move => (

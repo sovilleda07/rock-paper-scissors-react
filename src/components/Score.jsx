@@ -1,7 +1,15 @@
+import { useTranslation } from "react-i18next";
+
 export function Score({ score }) {
+  const { t } = useTranslation();
+
   return (
     <p className='score'>
-      Wins: {score.wins}, Losses: {score.losses}, Ties: {score.ties}
+      {t('score_summary', {
+        wins: score.wins,
+        losses: score.losses,
+        ties: score.ties
+      })}
     </p>
   )
 }

@@ -1,13 +1,17 @@
+import { useTranslation } from "react-i18next";
+
 export function ControlsInfo() {
+  const { t } = useTranslation();
+
   return (
     <div className="instructions">
-      <p>Instructions:</p>
+      <p>{t('instructions')}:</p>
       <ul className="controls-instructions">
-        <li>- Press <strong>P</strong> to play Paper</li>
-        <li>- Press <strong>R</strong> to play Rock</li>
-        <li>- Press <strong>S</strong> to play Scissors</li>
-        <li>- Press <strong>A</strong> for Auto play</li>
-        <li>- Press <strong>Backspace</strong> to Reset score</li>
+        <li>- {t('press')} <strong>P</strong> {t('to_play')} {t('paper')}</li>
+        <li>- {t('press')} <strong>R</strong> {t('to_play')} {t('paper')}</li>
+        <li>- {t('press')} <strong>S</strong> {t('to_play')} {t('scissors')}</li>
+        <li>- {t('press')} <strong>A</strong> {t('for_auto')} </li>
+        <li>- {t('press')} <strong>{t('backspace')}</strong> {t('to_reset')} </li>
       </ul>
     </div>
   )

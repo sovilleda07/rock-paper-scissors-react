@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 
 export function ResetConfirmModal({ onConfirm, onCancel }) {
+  const { t } = useTranslation();
+
   const modalRef = useRef(null);
   const previousFocusRef = useRef(null);
 
@@ -43,15 +46,15 @@ export function ResetConfirmModal({ onConfirm, onCancel }) {
         tabIndex={-1}
         ref={modalRef}
       >
-        <h2 id="reset-title">Reset score</h2>
-        <p>Are you sure you want to reset the score?</p>
+        <h2 id="reset-title">{t('reset_score')}</h2>
+        <p>{t('confirm_reset_score')}</p>
 
         <div className="buttons-container">
           <button className="reset-confirm-button" onClick={onConfirm}>
-            Yes
+            {t('yes')}
           </button>
           <button className="reset-confirm-button" onClick={onCancel}>
-            No
+            {t('no')}
           </button>
         </div>
       </div>
