@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useKeyboardControls } from './hooks/useKeyboardControls';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
 import { ResetConfirmModal } from './components/ResetConfirmModal';
@@ -74,6 +75,7 @@ function App() {
 
   return (
     <div className='app-layout'>
+      <LanguageSwitcher />
       <div className='game-container'>
         <h1>{t('name')}</h1>
 
