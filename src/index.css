@@ -1,11 +1,34 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --bg-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+
+  --card-bg: rgba(255, 255, 255, 0.15);
+  --card-border: rgba(255, 255, 255, 0.25);
+  --card-box-shadow: rgba(0, 200, 255, 0.2);
+
+  --button-background: rgba(255, 255, 255, 0.20);
+  --button-background-hover: rgba(255, 255, 255, 0.3);
+  --button-border: rgba(255, 255, 255, 0.5);
+  --button-shadow-hover: rgba(0, 200, 255, 0.7);
+
+  --modal-background: rgba(255, 255, 255, 0.18);
+  --modal-border: rgba(255, 255, 255, 0.35);
+  --modal-box-shadow:
+    0 0 25px rgba(0, 200, 255, 0.35),
+    0 0 50px rgba(0, 200, 255, 0.15);
+
+  --text-primary: #f2f2f2;
+  --accent: #4da3ff;
+
+  --win-color: #00ff90;
+  --lose-color: #ff4c4c;
+  --tie-color: #ffd84d;
+
+  --win-color-shadow: rgba(0, 255, 153, 0.8);
+  --lose-color-shadow: rgba(255, 76, 76, 0.8);
+  --tie-color-shadow: rgba(255, 216, 77, 0.8);
+
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,56 +36,49 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+[data-theme="dark"] {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+
+  --card-bg: rgba(15, 23, 42, 0.65);
+  --card-border: rgba(148, 163, 184, 0.15);
+  --card-box-shadow: rgba(0, 0, 0, 0.4);
+
+  --button-background: rgba(148, 163, 184, 0.15);
+  --button-background-hover: rgba(148, 163, 184, 0.25);
+  --button-border: rgba(148, 163, 184, 0.35);
+  --button-shadow-hover: rgba(56, 189, 248, 0.6);
+
+  --modal-background: rgba(15, 23, 42, 0.75);
+  --modal-border: rgba(148, 163, 184, 0.2);
+  --modal-box-shadow:
+    0 0 25px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(56, 189, 248, 0.15);
+
+  --text-primary: #e5e7eb;
+  --accent: #070c1e;
+
+  --win-color: #4ade80;
+  --lose-color: #f87171;
+  --tie-color: #facc15;
+
+  --win-color-shadow: rgba(74, 222, 128, 0.6);
+  --lose-color-shadow: rgba(248, 113, 113, 0.6);
+  --tie-color-shadow: rgba(250, 204, 21, 0.6);
 }
-a:hover {
-  color: #535bf2;
+
+* {
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 body {
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  font-family: Roboto, Arial;
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  text-align: center;
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2.2em;
   line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

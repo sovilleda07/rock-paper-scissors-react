@@ -1,34 +1,123 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useKeyboardControls } from './hooks/useKeyboardControls';
+import { Controls } from './components/Controls';
+import { ControlsInfo } from './components/ControlsInfo';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { MoveButton } from './components/MoveButton';
+import { Moves } from './components/Moves';
+import { ResetConfirmModal } from './components/ResetConfirmModal';
+import { Result } from './components/Result';
+import { Score } from './components/Score';
+import { ThemeToggle } from './components/ThemeToggle';
+import { MOVES, getGameResult, pickComputerMove } from './utils/gameLogic';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { t } = useTranslation();
+
+  const [score, setScore] = useState(() => {
+    return JSON.parse(localStorage.getItem('score')) || {
+      wins: 0,
+      losses: 0,
+      ties: 0
+    };
+  });
+
+  const [result, setResult] = useState('');
+  const [moves, setMoves] = useState(null);
+  const [isResettingScore, setIsResetingScore] = useState(false);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('score', JSON.stringify(score));
+  }, [score]);
+
+  const playGame = useCallback((playerMove) => {
+    const computerMove = pickComputerMove();
+    const gameResult = getGameResult(playerMove, computerMove);
+
+    setResult(gameResult);
+    setMoves({ playerMove, computerMove });
+
+    setScore(prev => ({
+      wins: prev.wins + (gameResult === 'You win.' ? 1 : 0),
+      losses: prev.losses + (gameResult === 'You lose.' ? 1 : 0),
+      ties: prev.ties + (gameResult === 'Tie.' ? 1 : 0)
+    }));
+  }, []);
+
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const id = setInterval(() => {
+      playGame(pickComputerMove());
+    }, 1000);
+
+    return () => clearInterval(id);
+  }, [isAutoPlaying, playGame]);
+
+
+  useKeyboardControls({
+    onPlay: playGame,
+    onToggleAutoPlay: () => setIsAutoPlaying(p => !p),
+    onReset: () => setIsResetingScore(true)
+  })
+
+  function resetScore() {
+    setIsAutoPlaying(false);
+    setScore({ wins: 0, losses: 0, ties: 0 });
+    setResult('');
+    setMoves(null);
+    setIsResetingScore(false);
+
+    localStorage.removeItem('score');
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className='app-layout'>
+      <div className="top-controls">
+        <ThemeToggle />
+        <span className="controls-separator" />
+        <LanguageSwitcher />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className='game-container'>
+        <h1>{t('name')}</h1>
+
+        <div className='moves-container'>
+          {MOVES.map(move => (
+            <MoveButton key={move} move={move} onPlay={playGame} />
+          ))}
+        </div>
+
+        {moves && (
+          <div className='round-result'>
+            <Moves
+              playerMove={moves.playerMove}
+              computerMove={moves.computerMove}
+            />
+            <Result result={result} />
+          </div>
+        )}
+
+        <Score score={score} />
+
+        <Controls
+          isAutoPlaying={isAutoPlaying}
+          onReset={() => setIsResetingScore(true)}
+          onToggleAutoPlay={() => setIsAutoPlaying(p => !p)}
+        />
+
+        <ControlsInfo />
+
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      {isResettingScore && (
+        <ResetConfirmModal
+          onConfirm={resetScore}
+          onCancel={() => setIsResetingScore(false)}
+        />
+      )}
+    </div>
   )
 }
 
