@@ -1,14 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useKeyboardControls } from './hooks/useKeyboardControls';
+import { Controls } from './components/Controls';
+import { ControlsInfo } from './components/ControlsInfo';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { MoveButton } from './components/MoveButton';
 import { Moves } from './components/Moves';
 import { ResetConfirmModal } from './components/ResetConfirmModal';
 import { Result } from './components/Result';
 import { Score } from './components/Score';
-import { Controls } from './components/Controls';
-import { ControlsInfo } from './components/ControlsInfo';
+import { ThemeToggle } from './components/ThemeToggle';
 import { MOVES, getGameResult, pickComputerMove } from './utils/gameLogic';
 import './App.css';
 
@@ -75,7 +76,11 @@ function App() {
 
   return (
     <div className='app-layout'>
-      <LanguageSwitcher />
+      <div className="top-controls">
+        <ThemeToggle />
+        <span className="controls-separator" />
+        <LanguageSwitcher />
+      </div>
       <div className='game-container'>
         <h1>{t('name')}</h1>
 
