@@ -211,14 +211,6 @@
   opacity: 0.95;
 }
 
-.player:first-child {
-  justify-self: end;
-}
-
-.player:last-child {
-  justify-self: start;
-}
-
 .round-move-icon {
   height: 55px;
   margin-bottom: 6px;
