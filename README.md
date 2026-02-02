@@ -1,16 +1,51 @@
-# React + Vite
+# Rock Paper Scissors React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, interactive Rock Paper Scissors game built with React. Play against the computer, track your score, and enjoy a polished UI with dark mode support.
 
-Currently, two official plugins are available:
+![Demo](./public/demo.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+-   **Play vs Computer**: Classic game logic implementation.
+-   **Score Tracking**: Wins, losses, and ties are tracked and persisted using LocalStorage.
+-   **Auto Play Mode**: Let the computer play against itself for automated testing or fun.
+-   **Keyboard Controls**:
+    -   `r`: Rock
+    -   `p`: Paper
+    -   `s`: Scissors
+    -   `a`: Toggle Auto Play
+    -   `Backspace`: Reset Score
+-   **Theme Support**: Toggle between Light and Dark modes.
+-   **Multi-language**: Full support for English and Spanish.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+-   **React 19**: Modern UI library for building the interface.
+-   **Vite**: Fast build tool and development server.
+-   **i18next**: Internationalization framework for multi-language support.
+-   **CSS**: Custom styling with variables for theming.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/sovilleda07/rock-paper-scissors-react.git
+    cd rock-paper-scissors-react
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
+
+## Usage
+
+1.  Open the application in your browser (usually at `http://localhost:5173`).
+2.  Choose your move by clicking on the Rock, Paper, or Scissors icons.
+3.  The computer will instantly make its move, and the result (Win/Loss/Tie) will be displayed.
+4.  Use the toggle buttons at the top to switch themes or languages.
