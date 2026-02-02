@@ -5,7 +5,7 @@ export function MoveButton({ move, onPlay }) {
       onClick={() => onPlay(move)}
     >
       <img
-        src={`/${move}-emoji.png`}
+        src={`${move}-emoji.png`}
         alt={move}
         className="move-icon" />
     </button>
